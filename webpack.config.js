@@ -15,5 +15,12 @@ module.exports = {
     template: "src/template.html",
     title: "TodoList"
   })],
-
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      }
+    ]
+  }
 }

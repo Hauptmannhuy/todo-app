@@ -2,11 +2,11 @@ import { compareAsc, format } from "date-fns";
 
 class Todo {
   
-  constructor(title,description,list,priority) {
+  constructor(title) {
     this.title = title
-    this.description = description
-    this.priority = priority
-    this.list = list
+    this.description = null
+    this.priority = null
+    this.list = 'default'
     this.check = false
     this.date = null
   }
