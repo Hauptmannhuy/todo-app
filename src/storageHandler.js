@@ -22,4 +22,15 @@ function incrementPrimaryKey(){
  localStorage.setItem('primaryKey',(int+1)+'')
 }
 
-export default insertTodo
+function createList(name) {
+  if (!localStorage.lists){
+    localStorage.lists = 'default'
+  }
+  localStorage.lists += ` ${name}`
+}
+
+function fetchList() {
+  return localStorage.lists.split(' ')
+}
+
+export {insertTodo, createList, fetchList}

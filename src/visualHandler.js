@@ -1,4 +1,6 @@
+import { createList, fetchList } from "./storageHandler"
 
+const dropdownList = document.querySelector('.dropdown-lists')
 
 
 function appendTodo(todo){
@@ -21,4 +23,41 @@ function createTodoDiv(todo) {
   return div
 }
 
-export default appendTodo
+
+  function appendInputField(){
+    const div = document.createElement('div')
+    div.setAttribute('id','list-name-container')
+    div.classList.add('visible')
+    const inputField = document.createElement('input')
+    inputField.setAttribute('id','input-list')
+    const submit = document.createElement('button')
+    submit.setAttribute('id','submit-list')
+    submit.innerHTML = 'create list'
+    div.appendChild(inputField)
+    div.appendChild(submit)
+    dropdownList.appendChild(div)
+
+    submit.addEventListener('click',(e)=>{
+      const input = inputField.value
+      createList(input)
+      printLists()
+      div.remove()
+    })
+  }
+
+  function printLists () {
+    dropdownList.innerHTML = ''
+    const ul = document.createElement('ul')
+    const array = fetchList()
+
+    for (let i = 0; i < array.length; i++) {
+      const li = document.createElement('li')
+      li.innerHTML = array[i]     
+      ul.appendChild(li) 
+    }
+    dropdownList.appendChild(ul)
+  }
+
+  printLists()
+
+export {appendTodo, appendInputField}
