@@ -1,14 +1,13 @@
 import { createList, fetchList } from "./storageHandler"
 
 const dropdownList = document.querySelector('.dropdown-lists')
-
+const dropdownContainer = document.querySelector('.dropdown-container')
+const todoList = document.getElementById('todo-container')
 
 function appendTodo(todo){
-  const todoList = document.getElementById('list-container')
   const divTodo = createTodoDiv(todo)  
   todoList.appendChild(divTodo)
 }
-
 
 function createTodoDiv(todo) {
   const div = document.createElement('div')
@@ -35,7 +34,7 @@ function createTodoDiv(todo) {
     submit.innerHTML = 'create list'
     div.appendChild(inputField)
     div.appendChild(submit)
-    dropdownList.appendChild(div)
+    dropdownContainer.appendChild(div)
 
     submit.addEventListener('click',(e)=>{
       const input = inputField.value
@@ -56,6 +55,10 @@ function createTodoDiv(todo) {
       ul.appendChild(li) 
     }
     dropdownList.appendChild(ul)
+  }
+
+  function toggleTodoConstructor(){
+
   }
 
   printLists()

@@ -1,0 +1,25 @@
+aside {
+  background-color: antiquewhite;
+  padding: 50px;
+  min-width: 15%;
+}
+
+#todo-container {
+  position: relative; /* This makes the container the reference point for the absolute positioning */
+  padding: 25px;
+  background-color: aliceblue;
+  min-width:60%;
+}
+
+
+#buttons-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#create-todo {
+ position: absolute;
+ top: 0;
+ right: 0;
+}

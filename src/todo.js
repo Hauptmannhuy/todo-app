@@ -2,8 +2,8 @@ import { compareAsc, format } from "date-fns";
 
 class Todo {
   
-  constructor(title) {
-    this.title = title
+  constructor() {
+    this.title = 'title name'
     this.description = null
     this.priority = null
     this.list = 'default'

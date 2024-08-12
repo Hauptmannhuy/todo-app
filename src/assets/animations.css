@@ -1,0 +1,8 @@
+.dropdown-lists, .todo-constructor {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
