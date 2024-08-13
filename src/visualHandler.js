@@ -1,5 +1,5 @@
-import { createList, fetchList } from "./storageHandler"
-
+import { createList, fetchList, fetchTodo } from "./storageHandler"
+import { cacheListBtns,listenListBtns } from "./index"
 const dropdownList = document.querySelector('.dropdown-lists')
 const dropdownContainer = document.querySelector('.dropdown-container')
 const todoList = document.getElementById('todo-container')
@@ -14,12 +14,23 @@ function createTodoDiv(todo) {
   div.classList.add('todo')
   const labels = ['title','description','priority','list','check','date']
   for (let i = 0; i < labels.length; i++) {
-    const label = labels[i];
+    const label = labels[i]
     const labelDiv = document.createElement('div')
     labelDiv.innerHTML = `${label}: ${todo[label]}`
     div.appendChild(labelDiv)
   }
   return div
+}
+
+function printTodo(list = 'home'){
+  todoList.innerHTML = ''
+  const array = fetchTodo(list)
+  console.log(array)
+  for (let i = 0; i < array.length; i++) {
+    const element = array[i]
+    const todo = createTodoDiv(element)
+    todoList.appendChild(todo)
+  }
 }
 
 
@@ -40,27 +51,28 @@ function createTodoDiv(todo) {
       const input = inputField.value
       createList(input)
       printLists()
+      const listBtns = cacheListBtns()
+      listenListBtns(listBtns)
       div.remove()
     })
   }
 
   function printLists () {
     dropdownList.innerHTML = ''
-    const ul = document.createElement('ul')
     const array = fetchList()
 
     for (let i = 0; i < array.length; i++) {
-      const li = document.createElement('li')
-      li.innerHTML = array[i]     
-      ul.appendChild(li) 
+      const btn = document.createElement('button')
+      btn.classList.add('btn-list')
+      if (array[i] == 'home') {
+        continue
+      }
+      btn.innerHTML = array[i]     
+      dropdownList.appendChild(btn) 
     }
-    dropdownList.appendChild(ul)
   }
 
-  function toggleTodoConstructor(){
 
-  }
 
-  printLists()
 
-export {appendTodo, appendInputField}
+export {appendTodo, appendInputField, printLists, printTodo}

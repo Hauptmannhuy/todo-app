@@ -23,14 +23,27 @@ function incrementPrimaryKey(){
 }
 
 function createList(name) {
-  if (!localStorage.lists){
-    localStorage.lists = 'default'
-  }
   localStorage.lists += ` ${name}`
 }
 
 function fetchList() {
+  if (localStorage.lists == undefined){
+    localStorage.lists = 'home'
+  }
   return localStorage.lists.split(' ')
 }
 
-export {insertTodo, createList, fetchList}
+function fetchTodo(list = 'home'){
+  let array = []
+  list = list.trim()
+  for (let i = 0; i < localStorage.length-2; i++) {
+    const item = JSON.parse(localStorage.getItem(i)).todo
+    if (item.list == list) {
+      array.push(item)
+    }
+  }
+  return array
+
+}
+
+export {insertTodo, createList, fetchList, fetchTodo}

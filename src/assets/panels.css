@@ -4,13 +4,6 @@ aside {
   min-width: 15%;
 }
 
-#todo-container {
-  position: relative; /* This makes the container the reference point for the absolute positioning */
-  padding: 25px;
-  background-color: aliceblue;
-  min-width:60%;
-}
-
 
 #buttons-list {
   display: flex;
@@ -18,8 +11,16 @@ aside {
   align-items: center;
 }
 
+.todo-panel{
+  position: relative; 
+  padding: 25px;
+  background-color: aliceblue;
+  min-width:60%;
+}
+
 #create-todo {
  position: absolute;
  top: 0;
  right: 0;
 }
+
