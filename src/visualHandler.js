@@ -1,34 +1,55 @@
-import { createList, fetchList, fetchTodo } from "./storageHandler"
-import { cacheListBtns,listenListBtns } from "./index"
+import { createList, fetchList, fetchTodo, findTodo, changeTodoRecord } from "./storageHandler"
+import { cacheListBtns,listenListBtns, currentList } from "./index"
+import { editInputHandler } from "./inputHandler"
+
 const dropdownList = document.querySelector('.dropdown-lists')
 const dropdownContainer = document.querySelector('.dropdown-container')
 const todoList = document.getElementById('todo-container')
 
-function appendTodo(todo){
-  const divTodo = createTodoDiv(todo)  
-  todoList.appendChild(divTodo)
+
+
+function createTodoDiv(todo,key) {
+  const div = document.createElement('div')
+  div.setAttribute('id', key)
+  div.classList.add('todo')
+  setTodoValues(todo,div)
+  
+  return div
 }
 
-function createTodoDiv(todo) {
-  const div = document.createElement('div')
-  div.classList.add('todo')
-  const labels = ['title','description','priority','list','check','date']
+function setTodoValues(todo,div){
+  const labels = ['check','description','list','date']
   for (let i = 0; i < labels.length; i++) {
-    const label = labels[i]
-    const labelDiv = document.createElement('div')
-    labelDiv.innerHTML = `${label}: ${todo[label]}`
-    div.appendChild(labelDiv)
+    if (i == 0) {
+      const radioBtn = document.createElement('input')
+      radioBtn.setAttribute('type','checkbox')
+      div.appendChild(radioBtn)
+      continue
+    }
+    const valueDiv = document.createElement('div')
+    valueDiv.innerHTML = todo[labels[i]]
+    div.append(valueDiv)
   }
-  return div
+ const editBtn = addTodoEditBtn()
+  div.appendChild(editBtn)
+}
+
+function addTodoEditBtn(){
+  const editBtn = document.createElement('button')
+  editBtn.innerHTML = 'edit'
+  editBtn.classList.add('edit-todo')
+  return editBtn
 }
 
 function printTodo(list = 'home'){
   todoList.innerHTML = ''
-  const array = fetchTodo(list)
-  console.log(array)
-  for (let i = 0; i < array.length; i++) {
-    const element = array[i]
-    const todo = createTodoDiv(element)
+  const hash = fetchTodo(list)
+  const keys = Object.keys(hash)
+  for (let i = 0; i <= keys.length-1; i++) {
+    const key = keys[i]
+    const item = hash[key]
+    const todo = createTodoDiv(item,key)
+    cacheEditBtnListener(todo)
     todoList.appendChild(todo)
   }
 }
@@ -72,7 +93,77 @@ function printTodo(list = 'home'){
     }
   }
 
+  function createEditForm(div){
+    const length = div.children.length - 1
+    const nodeArray = div.children
+    for (let i = length; i >= 1; i--){
+      const element = nodeArray[i];
+      element.remove()
+      }
+      for (let i = 0; i < length-1; i++) {
+        let input = document.createElement('input')
+        if (i == 1){
+          input = document.createElement('select')
+          const lists = fetchList()
+          lists.forEach(list => {
+            const option = document.createElement('option')
+            option.innerHTML = list
+            option.setAttribute('value',list)
+            input.appendChild(option)
+          })
+        }
+        else if (i == 2){
+          input.setAttribute('type','date')
+        }
+        div.appendChild(input)
+      }
+      verificationButtons(div)
+  }
+
+  function verificationButtons(div){
+    const submit = document.createElement('button')
+    submit.innerHTML = 'ok'
+    const cancel = document.createElement('button')
+    cancel.innerHTML = 'cancel'
+    const arr = [submit,cancel]
+    arr.forEach(btn => {
+      btn.addEventListener('click',(e)=>{
+        const id = div.id
+        if (e.target.innerHTML == 'ok') {
+          processEdit(id)
+          printTodo(currentList)
+        } else {
+          processEdit(id)
+          printTodo(currentList)
+        }
+      })
+    })
+    div.append(submit,cancel)
+  }
+
+  function processEdit(id) {
+    const todo = findTodo(id)
+    const values = editInputHandler(id)
+    const labels = ['description', 'list','date']
+    console.log(values)
+    console.log(todo)
+    for (let i = 0; i < 3; i++) {
+      if (values[i] == ''){
+        continue
+      }
+      todo.changeAttribute(labels[i],values[i])
+    }
+    changeTodoRecord(id,todo)
+  }
+
+  
+
+  function cacheEditBtnListener(div){
+    div.lastChild.addEventListener('click',(e)=>{
+      createEditForm(div)
+    })
+  }
 
 
 
-export {appendTodo, appendInputField, printLists, printTodo}
+export {appendInputField, printLists, printTodo}

@@ -1,10 +1,18 @@
+import Todo from "./todo"
 
 function insertTodo(todo){
   const key = retrievePrimaryKey()
- console.log(localStorage.setItem(key, JSON.stringify({
+  console.log(key)
+ localStorage.setItem(key, JSON.stringify({
   todo
-}))) 
+}))
  incrementPrimaryKey()
+}
+
+function changeTodoRecord(id,todo){
+ localStorage.setItem(id, JSON.stringify({
+    todo
+  }))
 }
 
 function retrievePrimaryKey() {
@@ -34,16 +42,29 @@ function fetchList() {
 }
 
 function fetchTodo(list = 'home'){
-  let array = []
+  let hash = {}
   list = list.trim()
   for (let i = 0; i < localStorage.length-2; i++) {
     const item = JSON.parse(localStorage.getItem(i)).todo
     if (item.list == list) {
-      array.push(item)
+      hash[i] = item
     }
   }
-  return array
+  return hash
 
 }
 
-export {insertTodo, createList, fetchList, fetchTodo}
+function instantiateTodo(object){
+  const values = Object.values(object['todo'])
+  console.log(values)
+  const todoInstance = new Todo(...values)
+  return todoInstance
+}
+
+function findTodo(id){
+  let object = JSON.parse(localStorage.getItem(id))
+  object = instantiateTodo(object)
+  return object
+}
+
+export {insertTodo, createList, fetchList, fetchTodo, findTodo,changeTodoRecord}

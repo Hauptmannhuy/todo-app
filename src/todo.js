@@ -2,20 +2,17 @@ import { compareAsc, format } from "date-fns";
 
 class Todo {
   
-  constructor(list = 'home') {
-    this.title = 'title name'
-    this.description = null
-    this.priority = null
+  constructor(description='description',list ='home',check=false,date='date') {
+    this.description = description
     this.list = list
-    this.check = false
-    this.date = null
+    this.check = check
+    this.date = date
   }
 
-  //make setters and getters
 
-  //create separate change attr of date
 
   changeAttribute(type, value) {
+    console.log(`type:${type} value:${value}`)
       this[type] = value
   }
 

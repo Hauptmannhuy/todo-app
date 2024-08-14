@@ -4,10 +4,8 @@ import './assets/panels.css'
 import './assets/animations.css'
 import './assets/todo.css'
 
-import todoList from "./todo"
-import inputTodoHandler from "./inputHandler"
 import Todo from "./todo"
-import { appendTodo , appendInputField, printLists, printTodo } from "./visualHandler"
+import { appendInputField, printLists, printTodo } from "./visualHandler"
 import { insertTodo } from './storageHandler'
 
 
@@ -32,9 +30,9 @@ const createListbtn = document.getElementById('create-list')
 
 
 createTodoBtn.addEventListener('click', () => {
-  const todo = new Todo(currentList)
+  const todo = new Todo('description_name',currentList)
   insertTodo(todo)
-  appendTodo(todo)
+  printTodo(currentList)
 })
 
 createListbtn.addEventListener('click',(e)=>{
@@ -50,6 +48,7 @@ menuTitle.addEventListener("click", (e) => {
 
 
 // localStorage.clear()
+
 
 function listenListBtns(arr){
   arr.forEach(btn => {
@@ -67,7 +66,7 @@ function cacheListBtns(){
   
 }
 
-export {cacheListBtns,listenListBtns}
+export {cacheListBtns,listenListBtns, currentList}
 
 
 
