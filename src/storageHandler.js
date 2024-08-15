@@ -31,6 +31,7 @@ function incrementPrimaryKey(){
 }
 
 function createList(name) {
+  name = name.split(' ').join('_')
   localStorage.lists += ` ${name}`
 }
 
@@ -38,7 +39,33 @@ function fetchList() {
   if (localStorage.lists == undefined){
     localStorage.lists = 'home'
   }
-  return localStorage.lists.split(' ')
+  const output = []
+  let arr = localStorage.lists.split(' ')
+  for (let i = 0; i < arr.length; i++) {
+    let subarr = arr[i].split('')
+    let parts = []
+    let spaceIndexFound = false
+    let j = 0
+    while(j < subarr.length) {
+      let spaceIndex = subarr.indexOf('_',j)
+      if (spaceIndex != -1 && spaceIndexFound == false ) {
+        spaceIndexFound = true
+        parts.push(subarr.slice(j,spaceIndex).join(''))
+        j = spaceIndex+1
+        continue
+      }
+      else if (spaceIndex == -1){
+        parts.push(subarr.slice(j,subarr.length).join(''))
+        break
+      }
+      else if (subarr[j] != '_'){
+        spaceIndexFound = false
+      }
+      j++
+    }
+    output.push(parts.join(' ').trim())
+  }
+  return output
 }
 
 function fetchTodo(list = 'home'){

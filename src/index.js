@@ -47,7 +47,6 @@ menuTitle.addEventListener("click", (e) => {
 
 
 
-// localStorage.clear()
 
 
 function listenListBtns(arr){
