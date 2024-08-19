@@ -1,4 +1,5 @@
-.dropdown-lists, .todo-constructor {
+.dropdown-lists,
+.todo-constructor {
   display: none;
 }
 
@@ -6,4 +7,3 @@
   display: flex;
   flex-direction: column;
 }
-
